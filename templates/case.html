@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container mt-5" style="max-width: 600px;">
+  <h2 class="mb-4 text-center">Ingresar Caso Legal</h2>
+  <form action="{{ url_for('analizar_caso') }}" method="POST">
+    <div class="mb-3">
+      <label for="descripcion" class="form-label">Descripción del caso</label>
+      <textarea class="form-control" id="descripcion" name="descripcion" rows="4" required></textarea>
+    </div>
+    <div class="mb-3">
+      <label for="tipo_servicio" class="form-label">Tipo de servicio</label>
+      <select class="form-select" id="tipo_servicio" name="tipo_servicio" required>
+        <option value="">Selecciona un tipo</option>
+        <option value="Constitución de empresa">Constitución de empresa</option>
+        <option value="Defensa laboral">Defensa laboral</option>
+        <option value="Consultoría tributaria">Consultoría tributaria</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary w-100">Analizar con IA</button>
+  </form>
+</div>
+{% endblock %}

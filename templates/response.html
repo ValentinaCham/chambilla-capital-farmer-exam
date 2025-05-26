@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container mt-5" style="max-width: 700px;">
+  <h2 class="mb-4 text-center">Resultado del Análisis</h2>
+  <ul class="list-group mb-4">
+    <li class="list-group-item"><strong>Complejidad:</strong> {{ resultado.complejidad }}</li>
+    <li class="list-group-item"><strong>Ajuste de precio recomendado:</strong> {{ resultado.ajuste_precio }}%</li>
+    <li class="list-group-item"><strong>Servicios adicionales:</strong> {{ resultado.servicios_adicionales | join(', ') }}</li>
+  </ul>
+  <h4>Propuesta profesional:</h4>
+  <p>{{ resultado.propuesta_texto }}</p>
+  <a href="{{ url_for('ingresar_caso') }}" class="btn btn-secondary mt-3">Analizar otro caso</a>
+</div>
+{% endblock %}

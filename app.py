@@ -5,6 +5,7 @@ from datetime import datetime
 import os
 
 app = Flask(__name__)
+app.secret_key = os.getenv('SECRET_KEY')
 
 DATABASE = 'database.db'
 
@@ -46,6 +47,38 @@ def index():
         return redirect(url_for('login'))
     return render_template('index.html')
 
+@app.route('/consulta', methods=['GET', 'POST'])
+def analizar_caso():
+    if request.method == 'POST':
+        descripcion = request.form['descripcion']
+        tipo_servicio = request.form['tipo_servicio']
+        
+        resultado = analizar_con_ia(descripcion, tipo_servicio)
+        
+        return render_template('response.html', resultado=resultado)
+    else:
+        return render_template('case.html')
+
+def analizar_con_ia(descripcion, tipo_servicio):
+    prompt = f"""
+    Analiza este caso legal: {descripcion}
+    Tipo de servicio: {tipo_servicio}
+    
+    Evalúa:
+    1. Complejidad (Baja/Media/Alta)
+    2. Ajuste de precio recomendado (0%, 25%, 50%)
+    3. Servicios adicionales necesarios
+    4. Genera propuesta profesional para cliente
+    """
+    # Aquí iría la llamada real a Gemini o la API que uses
+    # Simulación de respuesta:
+    return {
+        'complejidad': 'Media',
+        'ajuste_precio': 25,
+        'servicios_adicionales': ['Revisión de contratos'],
+        'propuesta_texto': 'Estimado cliente, recomendamos proceder con...'
+    }
+
 @app.route('/register', methods=['POST', 'GET'])
 def register():
     if request.method == 'POST':
@@ -55,7 +88,6 @@ def register():
         password_confirm = request.form['password_confirm']
 
         if password != password_confirm:
-            flash('Las contraseñas no coinciden.', 'danger')
             return render_template('register.html')
 
         conn = sqlite3.connect(DATABASE)
@@ -63,9 +95,8 @@ def register():
 
         cursor.execute('SELECT id FROM usuarios WHERE email = ?', (correo,))
         if cursor.fetchone():
-            flash('El correo ya está registrado.', 'warning')
             conn.close()
-            return render_template('register.html')
+            return render_template('El correo ya está registrado.')
 
         password_hash = generate_password_hash(password)
         fecha_registro = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -90,16 +121,17 @@ def login():
 
         conn = sqlite3.connect(DATABASE)
         cursor = conn.cursor()
-        cursor.execute('SELECT id, password_hash FROM usuarios WHERE email = ?', (email,))
+        cursor.execute('SELECT id, nombre, password FROM usuarios WHERE email = ?', (email,))
         user = cursor.fetchone()
         conn.close()
 
-        if user and check_password_hash(user[1], password):
+        if user and check_password_hash(user[2], password):
             session['usuario_id'] = user[0]
-            session['nombre_usuario'] = nombre_usuario
-            return f"Bienvenido, {nombre_usuario}. Sesión iniciada."
+            session['nombre_usuario'] = user[1]
+            # return f"Bienvenido, {user[1]}. Sesión iniciada."
+            return redirect(url_for('index'))
         else:
-            return "Usuario o contraseña incorrectos."
+            return render_template('error.html', mensaje='Usuario o contraseña incorrectos.')
     else:
         return render_template('login.html')
 
