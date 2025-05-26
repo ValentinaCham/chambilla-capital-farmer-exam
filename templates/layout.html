@@ -45,7 +45,6 @@
 <nav>
     {% if session.get('usuario_id') %}
         <a href="{{ url_for('index') }}">Inicio</a>
-        <a href="{{ url_for('consulta') }}">Consulta</a>
         <a href="{{ url_for('logout') }}">Logout</a>
         <span style="float:right;">Hola, {{ session.get('nombre_usuario') }}</span>
     {% else %}
