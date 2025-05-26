@@ -21,8 +21,8 @@ Se hizo la descarga de la librería, pero el peso hizo que no estuviera lista pa
 
 El .env debe de contener:
 
-API_KEY_GEMINI = AIzaSyBkMwt_ON2Ag3QasBILX1EKwanPboIjrf4
-SECRET_KEY = aplicacionAbogadosChambillaValentina123.?
+API_KEY_GEMINI = [Generar Gemini API KEY]
+SECRET_KEY = [Colocar cualqueir cosa]
 
 ## APIs utilizadas
 - Se hizo uso de la API Key de GEmini y se trato de hacer una impooolementacion con google generative ai para hacer una ejecuión interna.
