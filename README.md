@@ -1,11 +1,10 @@
-# chambilla-capital-farmer-exam
-
 # Sistema de Cotizaciones - Capital & Farmer
 
 ## Instalación
 1. Clone el repositorio
 2. pip install -r requirements.txt
 3. python app.py
+4. Para visualización de respuesta de caso: python apigeminitest.py
 
 ## Uso
 - Acceder a http://localhost:5000
